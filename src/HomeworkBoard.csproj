@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <LangVersion>latest</LangVersion>
+
+    <!-- ===== 体积与启动优化 ===== -->
+    <AssemblyName>HomeworkBoard</AssemblyName>
+    <RootNamespace>HomeworkBoard</RootNamespace>
+    <Version>1.0.0</Version>
+    <Product>作业可视化悬浮窗</Product>
+    <AssemblyTitle>作业可视化悬浮窗</AssemblyTitle>
+    <Company>HomeworkBoard</Company>
+    <Description>Windows 10/11 教室作业展示悬浮窗</Description>
+
+    <!-- 单文件自包含发布 -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+
+    <!-- 裁剪：开启后会显著减小体积，但 WPF 对裁剪支持有限，采用保守配置 -->
+    <PublishTrimmed>false</PublishTrimmed>
+
+    <!-- 关闭不必要的功能，加快启动 -->
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <SatelliteResourceLanguages>zh-Hans;en</SatelliteResourceLanguages>
+
+    <!-- 兼容旧系统提示 -->
+    <DebugType>none</DebugType>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- 关闭 application manifest 自动生成，使用自定义清单（DPI 感知） -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!-- 关键：JSON 数据文件不打包进 exe，运行时在程序同目录生成 -->
+  <ItemGroup>
+    <None Remove="data\**" />
+  </ItemGroup>
+
+</Project>

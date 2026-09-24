@@ -1,0 +1,87 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- ============================================================
+       界面层验证工程：只在开发阶段使用，不参与发布。
+       目的：真的把 MainWindow 建起来、渲染一遍，然后遍历可视树
+             数出实际渲染出的科目卡片数量。
+       这是唯一能证明「Columns 属性修好了」= 「界面上真的出现卡片」的方法。
+       数据层自检（Verify.csproj）只能证明数据对，证明不了绑定对。
+       ============================================================ -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>UiVerify</AssemblyName>
+    <RootNamespace>HomeworkBoard.UiVerify</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <StartupObject>HomeworkBoard.UiVerify.UiProgram</StartupObject>
+    <!-- 保留完整的程序集名，否则 XAML 里 clr-namespace 会解析失败 -->
+    <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 全部源码都要编进来（含 XAML 与代码后置），因为要真的建窗口 -->
+    <Compile Include="..\..\src\Models\DataModels.cs" />
+    <Compile Include="..\..\src\Core\JsonStore.cs" />
+    <Compile Include="..\..\src\Core\AppServices.cs" />
+    <Compile Include="..\..\src\Core\ScreenHelper.cs" />
+    <Compile Include="..\..\src\Core\NativeMethods.cs" />
+    <Compile Include="..\..\src\Converters\HexToBrushConverter.cs" />
+    <Compile Include="..\..\src\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="..\..\src\ViewModels\ViewModels.cs" />
+    <Compile Include="..\..\src\ViewModels\MainViewModel.cs" />
+    <Compile Include="..\..\src\Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\src\Views\EditItemWindow.xaml.cs">
+      <DependentUpon>EditItemWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\src\Views\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiProgram.cs" />
+
+    <!-- 用 Link 显式指定资源在程序集内的路径。
+         不加 Link 时，MSBuild 会用文件的**物理路径**推导资源名，
+         从 ..\..\src\Themes\ 链接进来会产生不可预期的键名，
+         导致 ResourceDictionary.Source 的 pack URI 找不到资源。
+         统一 Link 到 Themes/ 下，保证 /UiVerify;component/Themes/DarkTheme.xaml 可用。 -->
+    <Page Include="..\..\src\Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Link>Views\MainWindow.xaml</Link>
+    </Page>
+    <Page Include="..\..\src\Views\EditItemWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Link>Views\EditItemWindow.xaml</Link>
+    </Page>
+    <Page Include="..\..\src\Views\SettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Link>Views\SettingsWindow.xaml</Link>
+    </Page>
+    <Page Include="..\..\src\Themes\DarkTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Link>Themes\DarkTheme.xaml</Link>
+    </Page>
+    <!-- 注意：这里刻意**不用** ApplicationDefinition。
+         ApplicationDefinition 会自动生成一个 Main()，与本工程的 StartupObject 冲突，
+         导致进程启动后什么都不做就退出（stdout 全空）。
+         因此 App.xaml 只当作普通 Page 编进来（它本身只是资源字典容器），
+         Main 由 UiProgram.cs 提供。 -->
+    <Page Include="..\..\src\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="..\..\src\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

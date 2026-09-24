@@ -1,0 +1,49 @@
+# ---------------------------------------------------------------
+# HomeworkBoard .gitignore
+# ---------------------------------------------------------------
+
+# ---- .NET 构建产物 ----
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.binlog
+
+# ---- 发布 / 分发产物（体积大，且含运行时数据，不入库） ----
+publish/
+dist/
+*.pdb
+*.exe
+
+# ---- 程序运行时生成的用户数据 ----
+# settings.json 是每位使用者自己的配置（科目、颜色、模板）
+# homework.json 是实际的作业数据，可能含教师的个人信息
+settings.json
+homework.json
+settings.json.corrupt_*.json
+homework.json.corrupt_*.json
+
+# ---- IDE / 编辑器 ----
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- 操作系统 ----
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ---- 本地辅助目录（开发期自检与工作记录，按需决定是否开源） ----
+# _verify/ 是开发期自检工程，体积小、有参考价值，默认保留
+# .workbuddy/ 是本地 AI 助手工作区，含个人记忆，**不发布**
+.workbuddy/

@@ -1,0 +1,394 @@
+<Window x:Class="HomeworkBoard.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="设置"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        Width="520"
+        Height="600"
+        WindowStartupLocation="CenterOwner"
+        FontFamily="{StaticResource AppFontFamily}"
+        TextOptions.TextFormattingMode="Display"
+        UseLayoutRounding="True"
+        ShowInTaskbar="False">
+
+    <Border Background="{StaticResource BrushWindowBg}"
+            BorderBrush="#3A3A3C"
+            BorderThickness="1"
+            CornerRadius="12">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="22" ShadowDepth="3" Direction="270" Opacity="0.65" Color="#000000" />
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- 标题栏 -->
+            <Border Grid.Row="0"
+                    Padding="18,14,14,10"
+                    Background="Transparent"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="设置"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="16"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="修改后自动保存；窗口位置不会被记忆"
+                                   Foreground="{StaticResource BrushTextTertiary}"
+                                   FontSize="12"
+                                   Margin="0,2,0,0" />
+                    </StackPanel>
+                    <Button HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource TitleBarCloseButton}"
+                            Content="✕"
+                            Click="BtnClose_Click" />
+                </Grid>
+            </Border>
+
+            <!-- 设置内容 -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="18,0,18,0">
+                <StackPanel>
+
+                    <!-- ============ 外观 ============ -->
+                    <TextBlock Text="外观"
+                               Foreground="{StaticResource BrushAccent}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,4,0,10" />
+
+                    <!-- 透明度 -->
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="窗口透明度"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   FontSize="14" />
+                        <TextBlock x:Name="OpacityValueText"
+                                   Text="92%"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <Slider x:Name="OpacitySlider"
+                            Style="{StaticResource TouchSlider}"
+                            Minimum="70"
+                            Maximum="95"
+                            TickFrequency="5"
+                            IsSnapToTickEnabled="True"
+                            ValueChanged="OpacitySlider_ValueChanged"
+                            Margin="0,0,0,4" />
+                    <TextBlock Text="范围 70%—95%，步长 5%。半透明便于看到后面的课件。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               Margin="0,0,0,16" />
+
+                    <!-- 正文字号 -->
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="作业文字大小"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   FontSize="14" />
+                        <TextBlock x:Name="FontSizeValueText"
+                                   Text="20 px"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <Slider x:Name="FontSlider"
+                            Style="{StaticResource TouchSlider}"
+                            Minimum="12"
+                            Maximum="48"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            ValueChanged="FontSlider_ValueChanged"
+                            Margin="0,0,0,4" />
+                    <TextBlock Text="教室大屏建议 22—30；近距离看可调小。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               Margin="0,0,0,16" />
+
+                    <!-- 标题字号 -->
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="科目标题大小"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   FontSize="14" />
+                        <TextBlock x:Name="TitleFontValueText"
+                                   Text="22 px"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <Slider x:Name="TitleFontSlider"
+                            Style="{StaticResource TouchSlider}"
+                            Minimum="12"
+                            Maximum="56"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            ValueChanged="TitleFontSlider_ValueChanged"
+                            Margin="0,0,0,16" />
+
+                    <!-- 列宽（第 8 轮改名：现在是"卡片宽度"，因为布局已从多列改为横向网格） -->
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="卡片宽度"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   FontSize="14" />
+                        <TextBlock x:Name="ColumnWidthValueText"
+                                   Text="320 px"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <Slider x:Name="ColumnWidthSlider"
+                            Style="{StaticResource TouchSlider}"
+                            Minimum="200"
+                            Maximum="800"
+                            TickFrequency="20"
+                            IsSnapToTickEnabled="True"
+                            ValueChanged="ColumnWidthSlider_ValueChanged"
+                            Margin="0,0,0,4" />
+                    <TextBlock Text="决定一张科目卡片有多宽；窗口越宽、卡片越窄，一行就能放越多科目。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,16" />
+
+                    <!-- 窗口最大高度 -->
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="窗口最大高度"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   FontSize="14" />
+                        <TextBlock x:Name="MaxHeightValueText"
+                                   Text="720 px"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <TextBlock Text="内容超出后窗口内容区滚动。程序还会自动取不超过屏幕工作区的高度，不会压到任务栏。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,6" />
+                    <Slider x:Name="MaxHeightSlider"
+                            Style="{StaticResource TouchSlider}"
+                            Minimum="300"
+                            Maximum="1400"
+                            TickFrequency="20"
+                            IsSnapToTickEnabled="True"
+                            ValueChanged="MaxHeightSlider_ValueChanged"
+                            Margin="0,0,0,16" />
+
+                    <!-- ============ 窗口尺寸（实时调整） ============ -->
+                    <Border BorderBrush="{StaticResource BrushSeparator}"
+                            BorderThickness="0,1,0,0"
+                            Margin="0,0,0,14" />
+
+                    <TextBlock Text="窗口尺寸"
+                               Foreground="{StaticResource BrushAccent}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4" />
+                    <TextBlock Text="拖动下面的滑块，悬浮窗会立刻变大变小（所见即所得），松手后自动记住，下次启动保持这个尺寸。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,12" />
+
+                    <!-- 窗口宽度 -->
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="窗口宽度"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   FontSize="14" />
+                        <TextBlock x:Name="WinWidthValueText"
+                                   Text="380 px"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <Slider x:Name="WinWidthSlider"
+                            Style="{StaticResource TouchSlider}"
+                            Minimum="280"
+                            Maximum="1600"
+                            TickFrequency="20"
+                            IsSnapToTickEnabled="True"
+                            ValueChanged="WinWidthSlider_ValueChanged"
+                            Margin="0,0,0,4" />
+                    <TextBlock Text="宽度直接决定一行能放几张卡片：越宽，一行放得越多。上限已按屏幕宽度自动限制。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,16" />
+
+                    <!-- 窗口高度 -->
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="窗口高度"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   FontSize="14" />
+                        <TextBlock x:Name="WinHeightValueText"
+                                   Text="720 px"
+                                   Foreground="{StaticResource BrushTextPrimary}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Right" />
+                    </Grid>
+                    <Slider x:Name="WinHeightSlider"
+                            Style="{StaticResource TouchSlider}"
+                            Minimum="180"
+                            Maximum="1400"
+                            TickFrequency="20"
+                            IsSnapToTickEnabled="True"
+                            ValueChanged="WinHeightSlider_ValueChanged"
+                            Margin="0,0,0,4" />
+                    <TextBlock Text="高度小于内容高度时，内容区可以上下滚动。上限受上面的「窗口最大高度」与屏幕工作区限制。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,16" />
+
+                    <!-- ============ 科目管理 ============ -->
+                    <Border BorderBrush="{StaticResource BrushSeparator}"
+                            BorderThickness="0,1,0,0"
+                            Margin="0,0,0,14" />
+
+                    <TextBlock Text="科目"
+                               Foreground="{StaticResource BrushAccent}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4" />
+                    <TextBlock Text="取消勾选可隐藏该科目（作业数据不会丢失，重新勾选即可恢复显示）。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10" />
+
+                    <ItemsControl x:Name="SubjectList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox Grid.Column="0"
+                                              IsChecked="{Binding Enabled, Mode=TwoWay}"
+                                              VerticalAlignment="Center"
+                                              Cursor="Hand"
+                                              Checked="SubjectCheck_Changed"
+                                              Unchecked="SubjectCheck_Changed">
+                                        <CheckBox.Template>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <Border x:Name="Box"
+                                                        Width="18" Height="18"
+                                                        CornerRadius="5"
+                                                        BorderThickness="1.5"
+                                                        BorderBrush="#636366"
+                                                        Background="Transparent">
+                                                    <TextBlock x:Name="Tick"
+                                                               Text="✓" FontSize="12" FontWeight="Bold"
+                                                               Foreground="White"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Visibility="Collapsed" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="Box" Property="Background" Value="{StaticResource BrushSuccess}" />
+                                                        <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource BrushSuccess}" />
+                                                        <Setter TargetName="Tick" Property="Visibility" Value="Visible" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </CheckBox.Template>
+                                    </CheckBox>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                        <TextBlock Text="{Binding Name}"
+                                                   Foreground="{StaticResource BrushTextPrimary}"
+                                                   FontSize="14" />
+                                        <TextBlock Foreground="{StaticResource BrushTextTertiary}"
+                                                   FontSize="11">
+                                            <Run Text="键名：" />
+                                            <Run Text="{Binding Key}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="如需新增科目或修改科目名称、颜色，请用记事本编辑程序目录下的 settings.json 中的 subjects 数组，保存后点悬浮窗上的 ↻ 即可生效。"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,16" />
+
+                    <!-- ============ 数据文件 ============ -->
+                    <Border BorderBrush="{StaticResource BrushSeparator}"
+                            BorderThickness="0,1,0,0"
+                            Margin="0,0,0,14" />
+
+                    <TextBlock Text="数据文件"
+                               Foreground="{StaticResource BrushAccent}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,8" />
+
+                    <TextBlock Text="程序目录："
+                               Foreground="{StaticResource BrushTextSecondary}"
+                               FontSize="12" />
+                    <TextBlock x:Name="DataDirText"
+                               Foreground="{StaticResource BrushTextTertiary}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Margin="0,2,0,10" />
+
+                    <TextBlock x:Name="WritableHintText"
+                               Foreground="{StaticResource BrushWarning}"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               Visibility="Collapsed"
+                               Margin="0,0,0,10" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button Style="{StaticResource SecondaryButton}"
+                                Content="打开文件夹"
+                                Click="BtnOpenFolder_Click"
+                                Margin="0,0,10,0" />
+                        <Button Style="{StaticResource SecondaryButton}"
+                                Content="立即保存"
+                                Click="BtnSaveNow_Click"
+                                Margin="0,0,10,0" />
+                        <Button Style="{StaticResource SecondaryButton}"
+                                Content="重新载入"
+                                Click="BtnReload_Click" />
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- 底部按钮 -->
+            <Border Grid.Row="2"
+                    BorderBrush="{StaticResource BrushSeparator}"
+                    BorderThickness="0,1,0,0"
+                    Padding="18,12">
+                <Button Style="{StaticResource PrimaryButton}"
+                        Content="完成"
+                        HorizontalAlignment="Right"
+                        Click="BtnClose_Click" />
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- ============================================================
+       验证工程：只在开发阶段使用，不参与发布。
+       目的：用控制台程序直接调用 MainViewModel 与 JsonStore，
+             断言 Columns / AllCards 等关键集合在构造后确实被填充，
+             避免「靠肉眼看界面」这种不可靠的验证方式。
+       ============================================================ -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>Verify</AssemblyName>
+    <RootNamespace>HomeworkBoard.Verify</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <StartupObject>HomeworkBoard.Verify.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 只编译非界面的源码：Models / Core / ViewModels。
+         排除 XAML 及其代码后置，避免与 WPF 应用启动逻辑冲突。 -->
+    <Compile Include="..\..\src\Models\DataModels.cs" />
+    <Compile Include="..\..\src\Core\JsonStore.cs" />
+    <Compile Include="..\..\src\Core\AppServices.cs" />
+    <Compile Include="..\..\src\Core\ScreenHelper.cs" />
+    <Compile Include="..\..\src\Core\NativeMethods.cs" />
+    <Compile Include="..\..\src\ViewModels\ViewModels.cs" />
+    <Compile Include="..\..\src\ViewModels\MainViewModel.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+
+</Project>
